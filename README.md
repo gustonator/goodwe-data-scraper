@@ -2,15 +2,22 @@
 Scrape the Goodwe inverter data and write to a file
 </br></br>
 
-[optional] upgrade pip to nevest version with `python -m pip install --upgrade pip`
+### Installation
 
 install goodwe module: 
 ```
 python -m pip install goodwe
 ```
+</br>
+
+clone repo and run with:
+```
+python goodwe_get_data.py
+```
 
 </br>
-create a cronjob to get every day before midnight the data (at 23:50)
+[optional] create a cronjob to get every day before midnight the data (at 23:50)
+
 ```
 50 23 * * * <username> python /<absolute_path_to_script>/goodwe_get_data.py
 ```
