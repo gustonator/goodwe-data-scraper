@@ -1,30 +1,43 @@
 # Goodwe data scraper
-Scrape the Goodwe inverter data and write to InfluxDB or a file 
+Scrape the Goodwe inverter data and write to InfluxDB or a file
 </br></br>
 
 
-install goodwe module: 
+## Installation
+
+1. install `goodwe` and `influxdb-client` modules for python:
 ```
 python -m pip install goodwe
-```
-</br>
-
-clone repo and run with:
-```
-python goodwe_get_data.py
-```
-
-install influxDB module:
-```
 python -m pip install influxdb_client
 ```
 
+2. create a monitoring stack with deployment/docker-compose.yml file (this will install influxdb and grafana in docker)</br>
+  2.1 edit following files before running docker-compose:</br> 
+    - deployment/config.env</br>
+    - deployment/grafana/provisioning/datasources/datasource.yml</br>
+  2.2 run:</br>
+```
+        cd deployment
+        docker-compose up -d
+```
+
 </br>
-create a cronjob to get every 1 min the data
+
+3. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into secrets.py
+
+4. clone repo and run the scraper with:
+```
+python goodwe_get_data.py
+```
+</br>
+
+5. if everything is OK, create a cronjob to get every 5 min the data
 
 ```
-*/1 * * * * <username> python /<absolute_path_to_script>/goodwe_get_data.py
+*/5 * * * * <username> python /<absolute_path_to_script>/goodwe_get_data.py
 ```
 
 </br>
+
+[alt text](https://github.com/gustonator/goodwe-data-scraper/blob/master/images/grafana-screenshot.png?raw=true)
 

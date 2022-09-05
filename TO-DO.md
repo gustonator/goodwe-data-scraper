@@ -1,2 +1,3 @@
-[feature] option to turn on/off the file writing
-[addon]   grafana dashboards
+[FEATURE] option to turn on/off the file writing
+[FEATURE] possibility to choose different scrape time for different metrics
+[DONE]   grafana dashboards

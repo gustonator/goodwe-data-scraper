@@ -1,0 +1,34 @@
+apiVersion: 1
+
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    orgId: 1
+    url: http://prometheus:9090
+    basicAuth: false
+    isDefault: false
+    editable: true
+
+  - name: MySQL
+    type: mysql
+    isDefault: true
+    editable: true
+    url: <host_IP>:3306
+    database: <DB_name>
+    user: <DB_user>
+    secureJsonData:
+      password: <DB_pass>
+
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    secureJsonData:
+      token: <token>
+    jsonData:
+      version: Flux
+      organization: <organisation>
+      defaultBucket: <default bucket>
+      tlsSkipVerify: true
+

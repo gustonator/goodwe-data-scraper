@@ -1,0 +1,45 @@
+version: '2.1'
+
+networks:
+  internal:
+    external: false
+    driver: bridge
+
+volumes:
+  grafana-storage: {}
+  influxdb-storage: {}
+
+services:
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    volumes:
+      - influxdb-storage:/var/lib/influxdb2
+    restart: unless-stopped
+    env_file:
+      - config.env
+    ports:
+      - '8086:8086'
+    networks:
+      - internal
+    labels:
+      org.label-schema.group: "monitoring"
+
+  grafana:
+    image: grafana:latest
+    container_name: grafana
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    env_file:
+      - config.env
+    restart: unless-stopped
+    #user: 'root'
+    ports:
+      - 3000:3000
+    networks:
+      - internal
+    labels:
+      org.label-schema.group: "monitoring"
+
