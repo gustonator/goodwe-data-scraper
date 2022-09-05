@@ -1,6 +1,8 @@
 # Goodwe data scraper
 Scrape the Goodwe inverter data and write to InfluxDB or a file
-</br></br>
+</br>
+
+![grafana-screenshot](https://user-images.githubusercontent.com/43645090/188503114-e9c2d6cc-6237-4668-a308-5df757a87d2c.png)
 
 
 ## Installation
@@ -40,5 +42,4 @@ python goodwe_get_data.py
 </br>
 
 
-![grafana-screenshot](https://user-images.githubusercontent.com/43645090/188503114-e9c2d6cc-6237-4668-a308-5df757a87d2c.png)
 
