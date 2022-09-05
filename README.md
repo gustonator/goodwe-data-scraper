@@ -39,5 +39,6 @@ python goodwe_get_data.py
 
 </br>
 
-[alt text](https://github.com/gustonator/goodwe-data-scraper/blob/master/images/grafana-screenshot.png?raw=true)
+
+![grafana-screenshot](https://user-images.githubusercontent.com/43645090/188503114-e9c2d6cc-6237-4668-a308-5df757a87d2c.png)
 
