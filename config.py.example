@@ -1,11 +1,16 @@
 # Global settings
 # Energy price per kWh (in EUR)
-ENERGY_PRICE=0.2008
+ENERGY_PRICE = 0.2008
+
+# Healthchecks.io configuration
+HEALTHCHECK_ENABLED = True
+HEALTHCHECK_UID = "<Healthchecks.io uuid slug/token>"
 
 # Inverter settings
-INVERTER_IP="<Inverter IP>"
+INVERTER_IP = "<Inverter IP>"
 
-# InfluxDB connection variables
+# InfluxDB Settings
+INFLUXDB_WRITE_ENABLED = True
 INFLUXDB_URL = "http://<IP/HOSTNAME>:8086"
 INFLUXDB_TOKEN = "<InfluxDB User Token>"
 INFLUXDB_ORG = "<InfluxDB Org>"
