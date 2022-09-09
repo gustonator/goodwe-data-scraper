@@ -1,7 +1,7 @@
 import asyncio
 import goodwe
 import os
-import secrets
+import config
 import time
 from datetime import datetime
 from influxdb_client import InfluxDBClient, Point, WritePrecision
@@ -13,12 +13,12 @@ CURRENT_DIR=(os.path.dirname(os.path.realpath(__file__)))
 
 
 # Configure InfluxDB connection variables
-_client = InfluxDBClient(url=secrets.INFLUXDB_URL, token=secrets.INFLUXDB_TOKEN, org=secrets.INFLUXDB_ORG)
+_client = InfluxDBClient(url=config.INFLUXDB_URL, token=config.INFLUXDB_TOKEN, org=config.INFLUXDB_ORG)
 _write_api = _client.write_api(write_options=SYNCHRONOUS)
 
 try:
     async def get_runtime_data():
-        inverter = await goodwe.connect(secrets.INVERTER_IP)
+        inverter = await goodwe.connect(config.INVERTER_IP)
         runtime_data = await inverter.read_runtime_data()
     
         f=open(CURRENT_DIR+"/data-"+time.strftime("%Y-%m-%d")+'.txt', "w+")
@@ -37,7 +37,19 @@ try:
                           .field(sensor.id_, runtime_data[sensor.id_]) \
                           .time(datetime.utcnow(), WritePrecision.NS)
 
-                    _write_api.write(secrets.INFLUXDB_BUCKET, secrets.INFLUXDB_ORG, point)
+                    _write_api.write(config.INFLUXDB_BUCKET, config.INFLUXDB_ORG, point)
+        
+
+        #Write energy price into influxDB
+        point = Point("Energy price per kWh") \
+                .tag("type", "FVE") \
+                .field("energy_price", config.ENERGY_PRICE) \
+                .time(datetime.utcnow(), WritePrecision.NS)
+        _write_api.write(config.INFLUXDB_BUCKET, config.INFLUXDB_ORG, point)
+
+        # write also to file
+        f.write(f"energy_price: \t\t Energy price per kWh = {config.ENERGY_PRICE} kWh\n")
+
         f.close()
 
     asyncio.run(get_runtime_data())

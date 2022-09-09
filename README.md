@@ -29,7 +29,7 @@ python -m pip install influxdb_client
 
 </br>
 
-4. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into secrets.py
+4. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into config.py
 
 5. clone repo and run the scraper with:
 ```

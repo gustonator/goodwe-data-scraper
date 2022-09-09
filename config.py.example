@@ -1,3 +1,7 @@
+# Global settings
+# Energy price per kWh (in EUR)
+ENERGY_PRICE=0.2008
+
 # Inverter settings
 INVERTER_IP="<Inverter IP>"
 
