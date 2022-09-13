@@ -1,4 +1,4 @@
-secrets.py
+config.py
 logs/
 data-*
 __pycache__
