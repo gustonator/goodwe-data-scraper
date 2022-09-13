@@ -46,4 +46,19 @@ python goodwe_get_data.py
 </br>
 
 
+## Configurations
+`config.py` file explanation:
+*ENERGY_PRICE* 		- price in eur per kWh - user for correct counting in grafana dashboard
+*SCRAPE_ALL_METRICS*	- if set to 'True', all metrics will be scraped. otherwise metrics from `CUSTOM_MEASUREMENTS` list are scraped
+*CUSTOM_MEASUREMENTS* 	- if you do not wish to scrape all metrics, you can set, which metrics to scrape. A complete list can be found in file 'measurements-list.txt'
 
+*HEALTHCHECK_ENABLED*	- enable/disable monitoring via Healthchecks.io
+*HEALTHCHECK_UID*	- your UID on Healthchecks.io
+
+*INVERTER_IP*		- IP adress of your Goodwe inverter
+
+*INFLUXDB_WRITE_ENABLED*- if True, scraped data is written into InfluxDB
+*INFLUXDB_URL*		- URL of your InfluxDB
+*INFLUXDB_TOKEN*	- InfluxDB token - must have write permission in influx
+*INFLUXDB_ORG*		- organisation
+*INFLUXDB_BUCKET*	- InfluxDB bucket in which the scraped data should be stored
