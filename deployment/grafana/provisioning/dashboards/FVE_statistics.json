@@ -1,4 +1,81 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_INFLUXDB",
+      "label": "InfluxDB",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "influxdb",
+      "pluginName": "InfluxDB"
+    },
+    {
+      "name": "DS_MYSQL",
+      "label": "MySQL",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "mysql",
+      "pluginName": "MySQL"
+    },
+    {
+      "name": "DS_SUNANDMOON",
+      "label": "sunandmoon",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "fetzerch-sunandmoon-datasource",
+      "pluginName": "Sun and Moon"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "barchart",
+      "name": "Bar chart",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "fetzerch-sunandmoon-datasource",
+      "name": "Sun and Moon",
+      "version": "0.2.1"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "9.1.3"
+    },
+    {
+      "type": "datasource",
+      "id": "influxdb",
+      "name": "InfluxDB",
+      "version": "1.0.0"
+    },
+    {
+      "type": "datasource",
+      "id": "mysql",
+      "name": "MySQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,14 +101,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -55,7 +132,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
+        "w": 3,
         "x": 0,
         "y": 0
       },
@@ -77,12 +154,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"e_day\"\n  )",
           "refId": "A"
@@ -94,7 +171,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -109,21 +186,17 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
-          "unit": "kč"
+          "unit": "none"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 4,
+        "w": 3,
+        "x": 3,
         "y": 0
       },
       "id": 4,
@@ -142,26 +215,26 @@
         "text": {
           "valueSize": 40
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> map(fn: (r) => ({ r with _value: r._value * $PRICE_PER_KW }))",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> map(fn: (r) => ({ r with _value: r._value * ${PRICE_PER_KW}}))\n  |> map(fn: (r) => ({ r with _value: r._value * ${CURRENCY}}))",
           "refId": "A"
         }
       ],
-      "title": "Saved today",
+      "title": "Saved today (${CURRENCY})",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -203,8 +276,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 9,
+        "w": 3,
+        "x": 6,
         "y": 0
       },
       "id": 29,
@@ -225,12 +298,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"battery_mode\"\n  )",
           "refId": "A"
@@ -242,7 +315,70 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 9,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 40
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"vbattery1\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Battery Voltage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -270,14 +406,14 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 14,
+        "w": 3,
+        "x": 12,
         "y": 0
       },
       "id": 21,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -292,12 +428,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_temperature\")",
           "refId": "A"
@@ -309,7 +445,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -336,14 +472,14 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 19,
+        "w": 3,
+        "x": 15,
         "y": 0
       },
       "id": 9,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -358,12 +494,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"temperature\")",
           "refId": "A"
@@ -374,8 +510,98 @@
     },
     {
       "datasource": {
+        "type": "mysql",
+        "uid": "${DS_MYSQL}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 0
+      },
+      "id": 40,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 40
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "mysql",
+            "uid": "${DS_MYSQL}"
+          },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  value AS \"outside temperature\"\nFROM meteo\nwhere type = \"outside_temp\"",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "elektro",
+          "timeColumn": "timestamp",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": "Outside temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -399,7 +625,7 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 4,
+        "w": 3,
         "x": 0,
         "y": 3
       },
@@ -421,12 +647,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"e_total\"\n  )",
           "refId": "A"
@@ -438,7 +664,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -456,14 +682,14 @@
               }
             ]
           },
-          "unit": "kč"
+          "unit": "none"
         },
         "overrides": []
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 4,
+        "w": 3,
+        "x": 3,
         "y": 3
       },
       "id": 13,
@@ -484,24 +710,24 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")\n  |> map(fn: (r) => ({ r with _value: r._value * $PRICE_PER_KW }))",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")\n  |> map(fn: (r) => ({ r with _value: r._value * $PRICE_PER_KW}))\n  |> map(fn: (r) => ({ r with _value: r._value * ${CURRENCY}}))",
           "refId": "A"
         }
       ],
-      "title": "Saved total",
+      "title": "Saved total (${CURRENCY})",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -537,8 +763,8 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 9,
+        "w": 3,
+        "x": 6,
         "y": 3
       },
       "id": 12,
@@ -559,12 +785,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_soc\")\n",
           "refId": "A"
@@ -576,136 +802,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 14,
-        "y": 3
-      },
-      "id": 11,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"vbattery1\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Battery Voltage",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 19,
-        "y": 3
-      },
-      "id": 10,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"temperature\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Inverter AC Voltage",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -733,9 +830,9 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 5,
-        "x": 14,
-        "y": 6
+        "w": 3,
+        "x": 9,
+        "y": 3
       },
       "id": 39,
       "options": {
@@ -755,12 +852,12 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_error_h\" or r._field == \"battery_error_l\")",
           "refId": "error_h"
@@ -771,93 +868,26 @@
     },
     {
       "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "rothz"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 5,
-        "x": 19,
-        "y": 6
-      },
-      "id": 22,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"backup_f1\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Inverter AC Frequency",
-      "type": "stat"
-    },
-    {
-      "datasource": {
         "type": "mysql",
-        "uid": "P211906C1C32DB77E"
+        "uid": "${DS_MYSQL}"
       },
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 6
       },
       "id": 16,
       "options": {
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "mysql",
-            "uid": "P211906C1C32DB77E"
+            "uid": "${DS_MYSQL}"
           },
           "format": "time_series",
           "group": [],
@@ -893,7 +923,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -930,7 +960,7 @@
         "h": 3,
         "w": 6,
         "x": 0,
-        "y": 10
+        "y": 7
       },
       "id": 18,
       "options": {
@@ -950,12 +980,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>r._field == \"load_ptotal\")",
           "refId": "A"
@@ -967,8 +997,9 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
+      "description": "Negative value = Buying from grid</br>\nPositive value = Sending to grid\n",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -984,11 +1015,11 @@
               },
               {
                 "color": "dark-orange",
-                "value": -400
+                "value": -500
               },
               {
                 "color": "yellow",
-                "value": -250
+                "value": -300
               },
               {
                 "color": "green",
@@ -1004,7 +1035,7 @@
         "h": 3,
         "w": 6,
         "x": 6,
-        "y": 10
+        "y": 7
       },
       "id": 20,
       "options": {
@@ -1024,12 +1055,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"active_power_total\"\n  )",
           "refId": "A"
@@ -1041,7 +1072,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "description": "Negative value = Charging",
       "fieldConfig": {
@@ -1079,7 +1110,7 @@
         "h": 3,
         "w": 6,
         "x": 12,
-        "y": 10
+        "y": 7
       },
       "id": 30,
       "options": {
@@ -1099,12 +1130,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>r._field == \"pbattery1\")",
           "refId": "A"
@@ -1116,7 +1147,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1141,7 +1172,7 @@
         "h": 3,
         "w": 6,
         "x": 18,
-        "y": 10
+        "y": 7
       },
       "id": 31,
       "options": {
@@ -1161,12 +1192,12 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"ppv\"\n  )",
           "refId": "A"
@@ -1178,7 +1209,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1234,7 +1265,7 @@
         "h": 1,
         "w": 6,
         "x": 0,
-        "y": 13
+        "y": 10
       },
       "id": 37,
       "options": {
@@ -1254,12 +1285,12 @@
         },
         "textMode": "none"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "",
           "refId": "A"
@@ -1270,7 +1301,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1318,7 +1349,7 @@
         "h": 1,
         "w": 6,
         "x": 6,
-        "y": 13
+        "y": 10
       },
       "id": 35,
       "options": {
@@ -1338,12 +1369,12 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"active_power_total\"\n  )",
           "refId": "A"
@@ -1354,7 +1385,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1393,20 +1424,33 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Battery State of Charge battery_soc FVE"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 1,
         "w": 6,
         "x": 12,
-        "y": 13
+        "y": 10
       },
       "id": 36,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
+        "justifyMode": "center",
+        "orientation": "vertical",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -1419,15 +1463,24 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"battery_mode\"\n  )",
-          "refId": "A"
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_mode\")",
+          "refId": "STATUS"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB}"
+          },
+          "hide": true,
+          "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"battery_soc\")\r\n",
+          "refId": "STATUS_NUM"
         }
       ],
       "type": "stat"
@@ -1435,7 +1488,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1491,7 +1544,7 @@
         "h": 1,
         "w": 6,
         "x": 18,
-        "y": 13
+        "y": 10
       },
       "id": 38,
       "options": {
@@ -1511,12 +1564,12 @@
         },
         "textMode": "none"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "",
           "refId": "A"
@@ -1527,7 +1580,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1582,7 +1635,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 14
+        "y": 11
       },
       "id": 17,
       "options": {
@@ -1602,7 +1655,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>r._field == \"load_p1\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Load L1 (W)\" }))",
           "refId": "L1"
@@ -1610,7 +1663,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>r._field == \"load_p2\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Load L2 (W)\" }))",
@@ -1619,7 +1672,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>r._field == \"load_p3\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Load L3 (W)\" }))",
@@ -1632,7 +1685,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1687,7 +1740,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 14
+        "y": 11
       },
       "id": 19,
       "options": {
@@ -1707,7 +1760,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"active_power1\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Active Power L1 (W)\" }))",
           "refId": "L1"
@@ -1715,7 +1768,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"active_power2\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Active Power L2 (W)\" }))",
@@ -1724,7 +1777,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"active_power3\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Active Power L3 (W)\" }))",
@@ -1737,7 +1790,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1792,7 +1845,7 @@
         "h": 8,
         "w": 6,
         "x": 12,
-        "y": 14
+        "y": 11
       },
       "id": 32,
       "options": {
@@ -1812,7 +1865,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"pbattery1\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Battery Total (W)\" }))",
           "refId": "A"
@@ -1824,7 +1877,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1883,7 +1936,7 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 14
+        "y": 11
       },
       "id": 14,
       "options": {
@@ -1903,9 +1956,9 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"ppv\"\n  )",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"ppv\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Generated power (W)\" }))",
           "refId": "A"
         }
       ],
@@ -1915,20 +1968,19 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
+            "axisSoftMin": 0,
             "fillOpacity": 100,
             "gradientMode": "hue",
             "hideFrom": {
@@ -1936,20 +1988,9 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
             }
           },
           "decimals": 2,
@@ -1959,49 +2000,26 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
+                "color": "green",
                 "value": null
               }
             ]
           },
           "unit": "watth"
         },
-        "overrides": [
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "e_load_day FVE"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
-                }
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 22
+        "y": 19
       },
-      "hideTimeOverride": false,
       "id": 23,
       "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "groupWidth": 0.7,
         "legend": {
           "calcs": [
             "min",
@@ -2012,30 +2030,36 @@
           "placement": "bottom",
           "showLegend": true
         },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
         "tooltip": {
           "mode": "multi",
           "sort": "none"
-        }
+        },
+        "xTickLabelMaxLength": 0,
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
       },
       "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)\n",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Load (W)\" }))\n",
           "refId": "A"
         }
       ],
       "timeFrom": "30d",
       "title": "Power usage last 30d",
-      "type": "timeseries"
+      "type": "barchart"
     },
     {
       "datasource": {
         "type": "fetzerch-sunandmoon-datasource",
-        "uid": "1OPQMnGVz"
+        "uid": "${DS_SUNANDMOON}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2110,7 +2134,7 @@
         "h": 8,
         "w": 6,
         "x": 6,
-        "y": 22
+        "y": 19
       },
       "id": 15,
       "links": [],
@@ -2133,41 +2157,9 @@
         {
           "datasource": {
             "type": "fetzerch-sunandmoon-datasource",
-            "uid": "1OPQMnGVz"
+            "uid": "${DS_SUNANDMOON}"
           },
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
           "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [],
           "target": "sun_altitude"
         }
       ],
@@ -2178,20 +2170,20 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "palette-classic"
+            "mode": "thresholds"
           },
           "custom": {
             "axisCenteredZero": false,
             "axisColorMode": "text",
+            "axisGridShow": true,
             "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "bars",
+            "axisPlacement": "left",
+            "axisSoftMin": 0,
             "fillOpacity": 100,
             "gradientMode": "hue",
             "hideFrom": {
@@ -2199,34 +2191,20 @@
               "tooltip": false,
               "viz": false
             },
-            "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
             }
           },
           "decimals": 2,
           "mappings": [],
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -2238,10 +2216,13 @@
         "h": 8,
         "w": 6,
         "x": 18,
-        "y": 22
+        "y": 19
       },
-      "id": 26,
+      "id": 41,
       "options": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "groupWidth": 0.7,
         "legend": {
           "calcs": [
             "min",
@@ -2252,29 +2233,38 @@
           "placement": "bottom",
           "showLegend": true
         },
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "text": {},
         "tooltip": {
-          "mode": "single",
+          "mode": "multi",
           "sort": "none"
-        }
+        },
+        "xField": "Time",
+        "xTickLabelMaxLength": 0,
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
       },
+      "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
-          "query": "from(bucket: \"FVE_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)",
+          "query": "from(bucket: \"FVE_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Generated power (W)\" }))",
           "refId": "A"
         }
       ],
       "timeFrom": "30d",
       "title": "Power generation last 30d",
-      "type": "timeseries"
+      "type": "barchart"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
+        "uid": "${DS_INFLUXDB}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2316,8 +2306,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -2404,7 +2393,7 @@
         "h": 12,
         "w": 24,
         "x": 0,
-        "y": 30
+        "y": 27
       },
       "id": 34,
       "options": {
@@ -2427,7 +2416,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>r._field == \"load_ptotal\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Load (W)\" }))",
           "refId": "LOAD-HOUSE"
@@ -2435,7 +2424,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>r._field == \"active_power_total\" )\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Meter - Grid (W)\" }))",
@@ -2444,7 +2433,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) =>r._field == \"pbattery1\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Battery (W)\" }))",
@@ -2453,7 +2442,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"ppv\" )\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"PV -Generating power (W)\" }))",
@@ -2462,7 +2451,7 @@
         {
           "datasource": {
             "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
+            "uid": "${DS_INFLUXDB}"
           },
           "hide": false,
           "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"battery_soc\")\r\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Batter State of Charge (SOC) (%)\" }))\r\n",
@@ -2480,14 +2469,10 @@
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "FVE_data",
-          "value": "FVE_data"
-        },
+        "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "P951FEA4DE68E13C5"
+          "uid": "${DS_INFLUXDB}"
         },
         "definition": "buckets()",
         "hide": 0,
@@ -2504,28 +2489,51 @@
         "type": "query"
       },
       {
-        "current": {
-          "selected": false,
-          "text": "5.02",
-          "value": "5.02"
-        },
+        "current": {},
         "datasource": {
-          "type": "mysql",
-          "uid": "P211906C1C32DB77E"
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB}"
         },
-        "definition": "SELECT\nVT_price AS \"high tarif\"\nFROM elektro\nORDER BY DATE(timestamp) DESC LIMIT 1;",
-        "hide": 0,
+        "definition": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"energy_price\")",
+        "hide": 2,
         "includeAll": false,
         "label": "Price per kW",
         "multi": false,
         "name": "PRICE_PER_KW",
         "options": [],
-        "query": "SELECT\nVT_price AS \"high tarif\"\nFROM elektro\nORDER BY DATE(timestamp) DESC LIMIT 1;",
+        "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"energy_price\")",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "czk",
+          "value": "25.0"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "CURRENCY",
+        "options": [
+          {
+            "selected": false,
+            "text": "eur",
+            "value": "1.0"
+          },
+          {
+            "selected": true,
+            "text": "czk",
+            "value": "25.0"
+          }
+        ],
+        "query": "eur : 1.0,czk : 25.0",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },
@@ -2537,6 +2545,6 @@
   "timezone": "",
   "title": "FVE Statistics",
   "uid": "quZXZnMVk",
-  "version": 56,
+  "version": 78,
   "weekStart": "monday"
 }

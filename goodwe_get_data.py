@@ -53,7 +53,7 @@ try:
             _write_api.write(config.INFLUXDB_BUCKET, config.INFLUXDB_ORG, point)
         
         # write energy price to file
-        f.write(f"energy_price: \t\t Energy price per kWh = {config.ENERGY_PRICE} kWh\n")
+        f.write(f"energy_price: \t\t Energy price per kWh = {config.ENERGY_PRICE} eur\n")
 
         f.close()
 

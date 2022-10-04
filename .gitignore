@@ -1,4 +1,5 @@
 config.py
 logs/
 data-*
+changelog.md
 __pycache__

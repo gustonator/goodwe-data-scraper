@@ -4,7 +4,7 @@ ENERGY_PRICE = 0.2008
 SCRAPE_ALL_METRICS = False
 
 # custom measurements to scrape,if SCRAPE_ALL_METRICS is set to 'False'
-CUSTOM_MEASUREMENTS = ('e_total', 'e_day', 'e_total_exp', 'h_total', 'e_day_exp', 'e_total_imp', 'e_day_imp', 'e_load_total', 'e_load_day', 'battery_mode', 'battery_soc', 'battery_soc', 'battery_error_h', 'battery_error_l', 'battery_temperature', 'temperature', 'load_ptotal', 'active_power_total', 'pbatteryg', 'ppv', 'load_p1', 'load_p2', 'load_p3', 'active_power1', 'active_power2', 'active_power3', 'energy_price') 
+CUSTOM_MEASUREMENTS = ('e_total', 'e_day', 'e_total_exp', 'meter_e_total_imp', 'h_total', 'e_day_exp', 'e_total_imp', 'e_day_imp', 'e_load_total', 'e_load_day', 'battery_mode', 'battery_soc', 'battery_soc', 'battery_error_h', 'battery_error_l', 'battery_temperature', 'temperature', 'load_ptotal', 'active_power_total', 'pbatteryg', 'ppv', 'load_p1', 'load_p2', 'load_p3', 'active_power1', 'active_power2', 'active_power3', 'energy_price') 
 
 # Healthchecks.io configuration
 HEALTHCHECK_ENABLED = True
