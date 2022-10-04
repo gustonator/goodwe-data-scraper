@@ -51,17 +51,16 @@ python goodwe_get_data.py
 ## Configurations
 `config.py` file explanation:</br>
 </br>
-*ENERGY_PRICE* 		- price in eur per kWh - user for correct counting in grafana dashboard</br>
-*SCRAPE_ALL_METRICS*	- if set to 'True', all metrics will be scraped. otherwise metrics from `CUSTOM_MEASUREMENTS` list are scraped</br>
-*CUSTOM_MEASUREMENTS* 	- if you do not wish to scrape all metrics, you can set, which metrics to scrape. A complete list can be found in file 'measurements-list.txt'</br>
-
-*HEALTHCHECK_ENABLED*	- enable/disable monitoring via Healthchecks.io</br>
-*HEALTHCHECK_UID*	- your UID on Healthchecks.io</br>
-
-*INVERTER_IP*		- IP adress of your Goodwe inverter</br>
-
-*INFLUXDB_WRITE_ENABLED*- if True, scraped data is written into InfluxDB</br>
-*INFLUXDB_URL*		- URL of your InfluxDB</br>
-*INFLUXDB_TOKEN*	- InfluxDB token - must have write permission in influx</br>
-*INFLUXDB_ORG*		- organisation</br>
-*INFLUXDB_BUCKET*	- InfluxDB bucket in which the scraped data should be stored</br>
+| Attempt | #1 |
+| :---: | :---: |
+|**ENERGY_PRICE**| price in eur per kWh - user for correct counting in grafana dashboard|
+|**SCRAPE_ALL_METRICS**| if set to 'True', all metrics will be scraped. otherwise metrics from `CUSTOM_MEASUREMENTS` list are scraped|
+|**CUSTOM_MEASUREMENTS**| if you do not wish to scrape all metrics, you can set, which metrics to scrape. A complete list can be found in file 'measurements-list.txt'|
+|**HEALTHCHECK_ENABLED**| enable/disable monitoring via Healthchecks.io|
+|**HEALTHCHECK_UID**| your UID on Healthchecks.io|
+|**INVERTER_IP**| IP adress of your Goodwe inverter|
+|**INFLUXDB_WRITE_ENABLED**| if True, scraped data is written into InfluxDB|
+|**INFLUXDB_URL**| URL of your InfluxDB|
+|**INFLUXDB_TOKEN**| InfluxDB token - must have write permission in influx|
+|**INFLUXDB_ORG**| organisation|
+|**INFLUXDB_BUCKET**| InfluxDB bucket in which the scraped data should be stored|
