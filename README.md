@@ -51,8 +51,8 @@ python goodwe_get_data.py
 ## Configurations
 `config.py` file explanation:</br>
 </br>
-| Attempt | #1 |
-| :---: | :---: |
+| Value:| |
+| :--- | :--- |
 |**ENERGY_PRICE**| price in eur per kWh - user for correct counting in grafana dashboard|
 |**SCRAPE_ALL_METRICS**| if set to 'True', all metrics will be scraped. otherwise metrics from `CUSTOM_MEASUREMENTS` list are scraped|
 |**CUSTOM_MEASUREMENTS**| if you do not wish to scrape all metrics, you can set, which metrics to scrape. A complete list can be found in file 'measurements-list.txt'|
