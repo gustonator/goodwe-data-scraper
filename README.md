@@ -2,8 +2,9 @@
 Scrape the Goodwe inverter data and write to InfluxDB or a file
 </br>
 
-![image](https://user-images.githubusercontent.com/43645090/193848676-6417b82f-a626-43e9-b4ca-62280c377c99.png)
-![image](https://user-images.githubusercontent.com/43645090/194048087-46df1b76-0598-40e5-bda8-312a7bab5a88.png)
+![01](https://user-images.githubusercontent.com/43645090/195945343-cbf43ec1-dfd5-46f4-84d1-1fb0b7f8eb95.png)
+![02](https://user-images.githubusercontent.com/43645090/195945355-ea10296e-d2f5-4421-a543-a858fd01f8b6.png)
+
 
 
 
