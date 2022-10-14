@@ -29,6 +29,7 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -36,6 +37,7 @@
         "y": 0
       },
       "id": 54,
+      "panels": [],
       "title": "Current data",
       "type": "row"
     },
@@ -55,7 +57,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "yellow",
+                "color": "green",
                 "value": null
               }
             ]
@@ -96,74 +98,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\" )\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: ${TIMERANGE})\n  |> filter(fn: (r) => r._field == \"e_day\" )\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)",
           "refId": "A"
         }
       ],
-      "title": "Generated power Today",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 3,
-        "y": 1
-      },
-      "id": 4,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "value"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> map(fn: (r) => ({ r with _value: r._value * ${PRICE_PER_KW}}))\n  |> map(fn: (r) => ({ r with _value: r._value * ${CURRENCY}}))",
-          "refId": "A"
-        }
-      ],
-      "title": "Saved Today (${CURRENCY})",
+      "title": "Generated power (Today)",
       "type": "stat"
     },
     {
@@ -205,7 +144,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 6,
+        "x": 3,
         "y": 1
       },
       "hideTimeOverride": true,
@@ -234,11 +173,11 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n",
           "refId": "A"
         }
       ],
-      "title": "Power Usage Today",
+      "title": "Power Usage (Today)",
       "type": "stat"
     },
     {
@@ -246,7 +185,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
-      "description": "Total power imported from grid Today\n",
+      "description": "How much power was bought from grid Today",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -281,7 +220,7 @@
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 9,
+        "x": 6,
         "y": 1
       },
       "hideTimeOverride": true,
@@ -314,7 +253,7 @@
           "refId": "A"
         }
       ],
-      "title": "Imported power Today",
+      "title": "Imported power (Today)",
       "type": "stat"
     },
     {
@@ -322,6 +261,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
+      "description": "How much power was sold to grid Today",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -332,50 +272,26 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "red",
-                "value": null
-              },
-              {
-                "color": "semi-dark-orange",
-                "value": 30
-              },
-              {
-                "color": "#EAB839",
-                "value": 60
-              },
-              {
                 "color": "green",
-                "value": 80
+                "value": null
               }
             ]
           },
-          "unit": "percent"
+          "unit": "kwatth"
         },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byRegexp",
-              "options": "Discharge"
-            },
-            "properties": [
-              {
-                "id": "unit",
-                "value": "areaF2"
-              }
-            ]
-          }
-        ]
+        "overrides": []
       },
       "gridPos": {
         "h": 3,
         "w": 3,
-        "x": 12,
+        "x": 9,
         "y": 1
       },
-      "id": 12,
+      "hideTimeOverride": true,
+      "id": 60,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -397,11 +313,748 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_soc\")\n",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> keep(columns: [ \"_value\"])\n  ",
           "refId": "A"
         }
       ],
-      "title": "Battery state of Charge (SOC)",
+      "title": "Exported power (Today)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "How much energy from today's consumption was generated by solar panels (ignoring exported power)\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 20
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 12,
+        "y": 1
+      },
+      "hideTimeOverride": true,
+      "id": 70,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 40
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "meter_e_total_exp = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n\ne_day = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\n\nresult1 = join(tables: {e_day: e_day, meter_e_total_exp: meter_e_total_exp}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_e_day -  r._value_meter_e_total_exp }))\n  //|> yield(name: \"result1\")\n\ne_load_day = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\nresult2 = join(tables: {result1: result1, e_load_day: e_load_day}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_result1 / r._value_e_load_day * 100.0}))\n  |> keep(columns: [\"_value\"])\n  |> yield(name: \"result2\")\n\n\n",
+          "refId": "A"
+        }
+      ],
+      "title": "PV efficiency (Today)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "Generated power minus exported power\n(for exported power is different price)",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 15,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value \\{_field_today_exported=\"meter_e_total_exp\", _field_today_overall=\"e_day\", type=\"FVE\"\\}$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 40
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"math\"\ntoday_overall = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"overall\")\n\ntoday_exported = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"exported\")\n  \ntoday = join(tables: {today_overall: today_overall, today_exported: today_exported}, on: [\"type\"])\n  |> map(fn: (r) => ({r with _value: (math.round(x: ((r._value_today_overall - r._value_today_exported) * ${PRICE_PER_KW} * ${CURRENCY}) * 1.0) / 1.0),}),)\n  |> map(fn: (r) => ({ r with _value: string(v: r._value) + \" ${CURRENCY:text}\"}))\n  |> yield(name: \"result\")\n\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Saved money (Today)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 18,
+        "y": 1
+      },
+      "id": 72,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value$/",
+          "values": false
+        },
+        "text": {
+          "titleSize": 1,
+          "valueSize": 40
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"math\"\nfrom(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> keep(columns: [ \"_value\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: (math.round(x: (r._value * ${EXPORT_PRICE} * ${CURRENCY}) * 10.0) / 10.0),}),)\n  |> map(fn: (r) => ({ r with _value: string(v: r._value) + \" ${CURRENCY:text}\"}))\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Earned money (Today)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "State of Charge",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "N/A",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 30
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 21,
+        "y": 1
+      },
+      "id": 66,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "vertical",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 40
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "hide": false,
+          "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"battery_soc\")\r\n",
+          "refId": "STATUS_NUM"
+        }
+      ],
+      "title": "Battery SOC (current)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 0,
+        "y": 4
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Power Generated",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 4
+      },
+      "id": 58,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_load_total\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Total Power Usage today\" }))\n  ",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Power Usage",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "How much power was bought from grid in total",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 6,
+        "y": 4
+      },
+      "id": 57,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_imp\")\n\n  ",
+          "refId": "A"
+        }
+      ],
+      "title": "Total imported power",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "How much power was sold to grid in total",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 9,
+        "y": 4
+      },
+      "id": 61,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n\n  ",
+          "refId": "A"
+        }
+      ],
+      "title": "Total exporter power",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "How much energy from total consumption was generated by solar panels (ignoring exported power)\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 20
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 12,
+        "y": 4
+      },
+      "hideTimeOverride": true,
+      "id": 68,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "meter_e_total_exp = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"meter_e_total_exp\")\n\ne_total = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"e_total\")\n\nresult1 = join(tables: {e_total: e_total, meter_e_total_exp: meter_e_total_exp}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_e_total -  r._value_meter_e_total_exp }))\n  //|> yield(name: \"result1\")\n\ne_load_total = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_load_total\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  \nresult2 = join(tables: {result1: result1, e_load_total: e_load_total}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_result1 / r._value_e_load_total * 100.0}))\n  |> keep(columns: [\"_value\"])\n  |> yield(name: \"result2\")\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Total PV efficiency",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "czk"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 15,
+        "y": 4
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value \\{_field_total_exported=\"meter_e_total_exp\", _field_total_generated=\"e_total\", type=\"FVE\"\\}$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"math\"\ntotal_generated = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"overall\")\n\ntotal_exported = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"exported\")\n  \ntoday = join(tables: {total_generated: total_generated, total_exported: total_exported}, on: [\"type\"])\n  |> map(fn: (r) => ({r with _value: (math.round(x: ((r._value_total_generated - r._value_total_exported) * ${PRICE_PER_KW} * ${CURRENCY}) * 1.0) / 1.0),}),)\n  |> map(fn: (r) => ({ r with _value: string(v: r._value) + \" ${CURRENCY:text}\"}))\n  |> yield(name: \"result\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Total Saved money",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "czk"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 18,
+        "y": 4
+      },
+      "id": 73,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^meter_e_total_exp FVE$/",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "import \"math\"\nfrom(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> last()\n  |> map(fn: (r) => ({r with _value: (math.round(x: (r._value * ${EXPORT_PRICE} * ${CURRENCY}) * 10.0) / 10.0),}),)\n  |> map(fn: (r) => ({ r with _value: string(v: r._value) + \" ${CURRENCY:text}\"}))\n",
+          "refId": "A"
+        }
+      ],
+      "title": "Total earned money",
       "type": "stat"
     },
     {
@@ -434,15 +1087,15 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 2,
         "w": 3,
-        "x": 15,
-        "y": 1
+        "x": 0,
+        "y": 6
       },
       "id": 21,
       "options": {
         "colorMode": "value",
-        "graphMode": "area",
+        "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
@@ -453,7 +1106,7 @@
           "values": false
         },
         "text": {
-          "valueSize": 40
+          "valueSize": 30
         },
         "textMode": "auto"
       },
@@ -464,11 +1117,74 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_temperature\")",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_temperature\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Battery Temperature:\" }))",
           "refId": "A"
         }
       ],
       "title": "Battery Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "P951FEA4DE68E13C5"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "volt"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 3,
+        "x": 3,
+        "y": 6
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {
+          "valueSize": 30
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.1.3",
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "P951FEA4DE68E13C5"
+          },
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"vbattery1\")",
+          "refId": "A"
+        }
+      ],
+      "title": "Battery Voltage",
       "type": "stat"
     },
     {
@@ -500,10 +1216,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 2,
         "w": 3,
-        "x": 18,
-        "y": 1
+        "x": 6,
+        "y": 6
       },
       "id": 9,
       "options": {
@@ -519,7 +1235,7 @@
           "values": false
         },
         "text": {
-          "valueSize": 40
+          "valueSize": 30
         },
         "textMode": "auto"
       },
@@ -566,10 +1282,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 2,
         "w": 3,
-        "x": 21,
-        "y": 1
+        "x": 9,
+        "y": 6
       },
       "id": 40,
       "options": {
@@ -585,7 +1301,7 @@
           "values": false
         },
         "text": {
-          "valueSize": 40
+          "valueSize": 30
         },
         "textMode": "auto"
       },
@@ -637,257 +1353,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "decimals": 2,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "yellow",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 0,
-        "y": 4
-      },
-      "id": 3,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Power Generated",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 0,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 3,
-        "y": 4
-      },
-      "id": 13,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_total\")\n  |> map(fn: (r) => ({ r with _value: r._value * $PRICE_PER_KW}))\n  |> map(fn: (r) => ({ r with _value: r._value * ${CURRENCY}}))",
-          "refId": "A"
-        }
-      ],
-      "title": "Saved total (${CURRENCY})",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 6,
-        "y": 4
-      },
-      "id": 58,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"load_ptotal\")\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Total Power Usage today\" }))\n  ",
-          "refId": "A"
-        }
-      ],
-      "title": "Total Power Usage",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "description": "Total power imported\n",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "kwatth"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 9,
-        "y": 4
-      },
-      "id": 57,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_imp\")\n\n  ",
-          "refId": "A"
-        }
-      ],
-      "title": "Total imported power",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
           "decimals": 0,
           "mappings": [],
           "thresholds": {
@@ -908,10 +1373,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 2,
         "w": 3,
         "x": 12,
-        "y": 4
+        "y": 6
       },
       "id": 39,
       "options": {
@@ -927,7 +1392,7 @@
           "values": false
         },
         "text": {
-          "valueSize": 40
+          "valueSize": 30
         },
         "textMode": "value"
       },
@@ -944,123 +1409,6 @@
       ],
       "title": "Battery Errors",
       "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "influxdb",
-        "uid": "P951FEA4DE68E13C5"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "decimals": 1,
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 3,
-        "w": 3,
-        "x": 15,
-        "y": 4
-      },
-      "id": 11,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "text": {
-          "valueSize": 40
-        },
-        "textMode": "auto"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"vbattery1\")",
-          "refId": "A"
-        }
-      ],
-      "title": "Battery Voltage",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "mysql",
-        "uid": "P211906C1C32DB77E"
-      },
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 7
-      },
-      "id": 16,
-      "options": {
-        "content": "",
-        "mode": "markdown"
-      },
-      "pluginVersion": "9.1.3",
-      "targets": [
-        {
-          "datasource": {
-            "type": "mysql",
-            "uid": "P211906C1C32DB77E"
-          },
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  timestamp AS \"time\",\n  id\nFROM elektro\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "id"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "elektro",
-          "timeColumn": "timestamp",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "transparent": true,
-      "type": "text"
     },
     {
       "collapsed": false,
@@ -1154,7 +1502,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
-      "description": "Negative value = Buying from grid</br>\nPositive value = Sending to grid\n",
+      "description": "Negative value = Buying from grid</br>\nPositive value⠀= Sending to grid\n",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1229,7 +1577,7 @@
         "type": "influxdb",
         "uid": "P951FEA4DE68E13C5"
       },
-      "description": "Negative value = Charging",
+      "description": "Negative value = Charging</br>\nPositive value⠀= Discharging",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1354,7 +1702,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"ppv\"\n  )",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"ppv\")",
           "refId": "A"
         }
       ],
@@ -1468,6 +1816,7 @@
               "options": {
                 "from": -30000,
                 "result": {
+                  "color": "red",
                   "index": 0,
                   "text": "Buying"
                 },
@@ -1479,6 +1828,7 @@
               "options": {
                 "from": 1,
                 "result": {
+                  "color": "green",
                   "index": 1,
                   "text": "Selling"
                 },
@@ -1487,6 +1837,7 @@
               "type": "range"
             }
           ],
+          "noValue": "Unknown",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1520,7 +1871,7 @@
           "values": false
         },
         "text": {
-          "valueSize": 22
+          "valueSize": 20
         },
         "textMode": "value"
       },
@@ -1531,7 +1882,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) =>\n    r._field == \"active_power_total\"\n  )",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"active_power_total\")",
           "refId": "A"
         }
       ],
@@ -1552,23 +1903,64 @@
               "options": {
                 "1": {
                   "color": "green",
-                  "index": 0,
+                  "index": 1,
                   "text": "Standby"
                 },
                 "2": {
                   "color": "yellow",
-                  "index": 1,
+                  "index": 2,
                   "text": "Discharge"
                 },
                 "3": {
                   "color": "green",
-                  "index": 2,
+                  "index": 3,
                   "text": "Charging"
                 }
               },
               "type": "value"
+            },
+            {
+              "options": {
+                "pattern": ".*\\b([0-9]|1[0-5])\\b%.*",
+                "result": {
+                  "color": "red",
+                  "index": 0
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "Discharge.*",
+                "result": {
+                  "color": "yellow",
+                  "index": 4
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "Charging.*",
+                "result": {
+                  "color": "green",
+                  "index": 5
+                }
+              },
+              "type": "regex"
+            },
+            {
+              "options": {
+                "pattern": "Standby.*",
+                "result": {
+                  "color": "green",
+                  "index": 6
+                }
+              },
+              "type": "regex"
             }
           ],
+          "noValue": "Unknown",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -1589,6 +1981,10 @@
               {
                 "id": "unit",
                 "value": "percent"
+              },
+              {
+                "id": "displayName",
+                "value": "N/A"
               }
             ]
           }
@@ -1600,7 +1996,7 @@
         "x": 12,
         "y": 12
       },
-      "id": 36,
+      "id": 74,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -1610,11 +2006,11 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^_value$/",
           "values": false
         },
         "text": {
-          "valueSize": 22
+          "valueSize": 20
         },
         "textMode": "value"
       },
@@ -1625,17 +2021,8 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_mode\")",
+          "query": "import \"math\"\nbattery_mode = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_mode\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  |> map(\n      fn: (r) => ({r with\n          _value: if r._value == 1 then\n              \"Standby\"\n          else if r._value == 2 then\n              \"Discharge\"\n          else if r._value == 3 then\n              \"Charging\"\n          else\n              \"Unknown\"\n      }),\n  )\n  //|> yield(name: \"battery_status\")\n\nbattery_soc = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"battery_soc\")\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n  //|> yield(name: \"battery_soc\")\n  \nresult = join(tables: {battery_mode: battery_mode, battery_soc: battery_soc}, on: [\"type\"])\n   |> map(fn: (r) => ({ r with _value: string(v: r._value_battery_mode) + \": \" + string(v: r._value_battery_soc) + \"%\" }))\n   |> keep(columns: [\"_value\"])\n   |> yield(name: \"result\")\n\n",
           "refId": "STATUS"
-        },
-        {
-          "datasource": {
-            "type": "influxdb",
-            "uid": "P951FEA4DE68E13C5"
-          },
-          "hide": true,
-          "query": "from(bucket: \"$bucket\")\r\n  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)\r\n  |> filter(fn: (r) => r._field == \"battery_soc\")\r\n",
-          "refId": "STATUS_NUM"
         }
       ],
       "type": "stat"
@@ -2220,7 +2607,26 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "axisSoftMin": 0,
+            "fillOpacity": 100,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 1,
+            "scaleDistribution": {
+              "type": "linear"
+            }
           },
           "decimals": 2,
           "mappings": [],
@@ -2244,34 +2650,47 @@
         "x": 6,
         "y": 21
       },
-      "id": 43,
+      "id": 75,
       "options": {
-        "displayMode": "gradient",
-        "minVizHeight": 10,
-        "minVizWidth": 0,
-        "orientation": "auto",
-        "reduceOptions": {
+        "barRadius": 0,
+        "barWidth": 0.9,
+        "groupWidth": 0.7,
+        "legend": {
           "calcs": [
-            "lastNotNull"
+            "min",
+            "mean",
+            "max",
+            "sum"
           ],
-          "fields": "",
-          "values": true
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
         },
-        "showUnfilled": false
+        "orientation": "auto",
+        "showValue": "auto",
+        "stacking": "none",
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        },
+        "xTickLabelMaxLength": 0,
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 100
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.1.2",
       "targets": [
         {
           "datasource": {
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"FVE_data\")\n  |> range(start: -30d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_imp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  \n\n",
+          "query": "import \"math\"\nfrom(bucket: \"FVE_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_imp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> map(fn: (r) => ({r with _time: r._stop}))\n  |> drop(columns: [\"_start\", \"_stop\", \"_measurement\"])\n  |> map(fn: (r) => ({r with _value: (math.round(x: (r._value) * 100.0) / 100.0),}),)\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Imported power (W)\" }))\n",
           "refId": "A"
         }
       ],
-      "title": "Power from grid 30d - Work In progress",
-      "type": "bargauge"
+      "timeFrom": "30d",
+      "title": "Power from grid 30d",
+      "type": "barchart"
     },
     {
       "datasource": {
@@ -2467,7 +2886,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "from(bucket: \"FVE_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Generated power (W)\" }))",
+          "query": "from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_field\"] == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: max, createEmpty: false)\n  |> map(fn: (r) => ({ _value:r._value, _time:r._time, _field:\"Generated power (W)\" }))",
           "refId": "A"
         }
       ],
@@ -2524,7 +2943,8 @@
                 "value": null
               }
             ]
-          }
+          },
+          "unit": "watth"
         },
         "overrides": [
           {
@@ -2554,7 +2974,11 @@
               },
               {
                 "id": "custom.axisSoftMin",
-                "value": 0
+                "value": 5
+              },
+              {
+                "id": "custom.axisColorMode",
+                "value": "series"
               }
             ]
           },
@@ -2694,114 +3118,57 @@
     },
     {
       "datasource": {
-        "type": "fetzerch-sunandmoon-datasource",
-        "uid": "P847D144C0CC7F300"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
-              }
-            ]
-          },
-          "unit": "short"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Sun altitude"
-            },
-            "properties": [
-              {
-                "id": "color",
-                "value": {
-                  "fixedColor": "yellow",
-                  "mode": "fixed"
-                }
-              }
-            ]
-          }
-        ]
+        "type": "mysql",
+        "uid": "P211906C1C32DB77E"
       },
       "gridPos": {
-        "h": 8,
-        "w": 6,
+        "h": 1,
+        "w": 24,
         "x": 0,
         "y": 41
       },
-      "id": 15,
-      "links": [],
+      "id": 16,
       "options": {
-        "legend": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "multi",
-          "sort": "none"
-        }
+        "content": "",
+        "mode": "markdown"
       },
-      "pluginVersion": "9.1.2",
+      "pluginVersion": "9.1.3",
       "targets": [
         {
           "datasource": {
-            "type": "fetzerch-sunandmoon-datasource",
-            "uid": "P847D144C0CC7F300"
+            "type": "mysql",
+            "uid": "P211906C1C32DB77E"
           },
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  timestamp AS \"time\",\n  id\nFROM elektro\nWHERE\n  $__timeFilter(timestamp)\nORDER BY timestamp",
           "refId": "A",
-          "target": "sun_altitude"
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "elektro",
+          "timeColumn": "timestamp",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
         }
       ],
-      "timeFrom": "24h",
-      "title": "Sun Altitude",
-      "type": "timeseries"
+      "transparent": true,
+      "type": "text"
     }
   ],
   "refresh": "30s",
@@ -2884,6 +3251,57 @@
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Today",
+          "value": "-1d"
+        },
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "TIMERANGE",
+        "options": [
+          {
+            "selected": true,
+            "text": "Today",
+            "value": "-1d"
+          },
+          {
+            "selected": false,
+            "text": "Last 30d",
+            "value": "-30d"
+          }
+        ],
+        "query": "Today : -1d, Last 30d : -30d",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "0.032",
+          "value": "0.032"
+        },
+        "description": "",
+        "hide": 2,
+        "includeAll": false,
+        "label": "Export Price (eur)",
+        "multi": false,
+        "name": "EXPORT_PRICE",
+        "options": [
+          {
+            "selected": true,
+            "text": "0.032",
+            "value": "0.032"
+          }
+        ],
+        "query": "0.032",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
       }
     ]
   },
@@ -2895,6 +3313,6 @@
   "timezone": "",
   "title": "FVE Statistics",
   "uid": "quZXZnMVk",
-  "version": 113,
+  "version": 200,
   "weekStart": "monday"
 }

@@ -13,10 +13,3 @@ datasources:
       defaultBucket: FVE
       tlsSkipVerify: true
 
-
-  - name: sunandmoon
-    type: fetzerch-sunandmoon-datasource
-    jsonData:
-      latitude: 48.0
-      longitude: 10.0
-    editable: true
