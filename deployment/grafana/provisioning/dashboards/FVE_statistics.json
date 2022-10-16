@@ -91,7 +91,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -166,7 +166,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -242,7 +242,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -306,7 +306,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -382,7 +382,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -446,7 +446,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -511,7 +511,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -587,7 +587,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -651,7 +651,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -713,7 +713,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -776,7 +776,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -839,7 +839,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -916,7 +916,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -979,7 +979,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1043,7 +1043,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1110,7 +1110,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1173,7 +1173,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1239,7 +1239,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1305,7 +1305,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1396,7 +1396,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1483,7 +1483,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1558,7 +1558,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1633,7 +1633,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1695,7 +1695,7 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1788,7 +1788,7 @@
         },
         "textMode": "none"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -1812,6 +1812,16 @@
             "mode": "thresholds"
           },
           "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "green",
+                  "index": 2,
+                  "text": "Standby"
+                }
+              },
+              "type": "value"
+            },
             {
               "options": {
                 "from": -30000,
@@ -1875,7 +1885,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -2014,7 +2024,7 @@
         },
         "textMode": "value"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -2106,7 +2116,7 @@
         },
         "textMode": "none"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -3129,10 +3139,15 @@
       },
       "id": 16,
       "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
         "content": "",
         "mode": "markdown"
       },
-      "pluginVersion": "9.1.3",
+      "pluginVersion": "9.2.0",
       "targets": [
         {
           "datasource": {
@@ -3313,6 +3328,6 @@
   "timezone": "",
   "title": "FVE Statistics",
   "uid": "quZXZnMVk",
-  "version": 200,
+  "version": 201,
   "weekStart": "monday"
 }
