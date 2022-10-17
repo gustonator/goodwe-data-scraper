@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 9,
+  "id": 13,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -389,7 +389,7 @@
             "type": "influxdb",
             "uid": "P951FEA4DE68E13C5"
           },
-          "query": "meter_e_total_exp = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n\ne_day = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\n\nresult1 = join(tables: {e_day: e_day, meter_e_total_exp: meter_e_total_exp}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_e_day -  r._value_meter_e_total_exp }))\n  //|> yield(name: \"result1\")\n\ne_load_day = from(bucket: \"$bucket\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._field == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\nresult2 = join(tables: {result1: result1, e_load_day: e_load_day}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_result1 / r._value_e_load_day * 100.0}))\n  |> keep(columns: [\"_value\"])\n  |> yield(name: \"result2\")\n\n\n",
+          "query": "meter_e_total_exp = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r[\"_field\"] == \"meter_e_total_exp\")\n  |> window(every: 1d)\n  |> spread(column: \"_value\")\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n  |> last()\n\ne_day = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r._field == \"e_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\n\nresult1 = join(tables: {e_day: e_day, meter_e_total_exp: meter_e_total_exp}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_e_day -  r._value_meter_e_total_exp }))\n  //|> yield(name: \"result1\")\n\ne_load_day = from(bucket: \"$bucket\")\n  |> range(start: -1d)\n  |> filter(fn: (r) => r._field == \"e_load_day\")\n  |> aggregateWindow(every: 1d, fn: last, createEmpty: false)\n  |> drop(columns:[\"_start\", \"_stop\", \"_measurement\"])\n\nresult2 = join(tables: {result1: result1, e_load_day: e_load_day}, on: [\"type\"])\n  |> map(fn: (r) => ({ r with _value: r._value_result1 / r._value_e_load_day * 100.0}))\n  |> keep(columns: [\"_value\"])\n  |> yield(name: \"result2\")\n\n\n",
           "refId": "A"
         }
       ],
@@ -2949,8 +2949,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           },
@@ -3327,7 +3326,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "FVE Statistics",
-  "uid": "quZXZnMVk",
-  "version": 201,
+  "uid": "quZXZnMVk3",
+  "version": 3,
   "weekStart": "monday"
 }
