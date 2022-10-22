@@ -27,21 +27,17 @@ python -m pip install influxdb_client
         docker-compose up -d
 ```
 
-3. install and configure sun and moon plugin to grafana
-   https://grafana.com/grafana/plugins/fetzerch-sunandmoon-datasource/
-   https://github.com/fetzerch/grafana-sunandmoon-datasource
-
 </br>
 
-4. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into config.py
+3. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into config.py
 
-5. clone repo and run the scraper with:
+4. clone repo and run the scraper with:
 ```
 python goodwe_get_data.py
 ```
 </br>
 
-6. if everything is OK, create a cronjob to get every 5 min the data
+5. if everything is OK, create a cronjob to get every 5 min the data
 
 ```
 */5 * * * * <username> python /<absolute_path_to_script>/goodwe_get_data.py
