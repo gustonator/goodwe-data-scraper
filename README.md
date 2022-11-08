@@ -17,9 +17,9 @@ python -m pip install goodwe
 python -m pip install influxdb_client
 ```
 
-2. create a monitoring stack with deployment/docker-compose.yml file (this will install influxdb and grafana in docker)</br>
+2. create a monitoring stack with deployment/docker-compose.yml file (this will install influxdb and grafana in docker):</br>
   2.1 edit following files before running docker-compose:</br> 
-    - deployment/config.env</br>
+    - deployment/config.env - change create your own usernames, passwords and bucket name </br>
     - deployment/grafana/provisioning/datasources/datasource.yml</br>
   2.2 run:</br>
 ```
@@ -30,14 +30,21 @@ python -m pip install influxdb_client
 </br>
 
 3. Create an influxdb bucket and insert the influxdb URL, bucketname, org and token into config.py
+   to create the API token, follow the instruction on the InfluxDB website: https://docs.influxdata.com/influxdb/v2.4/security/tokens/create-token/
 
-4. clone repo and run the scraper with:
+4. after you created the bucket and API token in influxDB, insert them into `config.py` and `deployment/grafana/provisioning/datasources/datasource.yml` and run `docker-compose up -d` again to update the datasource setup in grafana
+
+5. go to Grafana -> settings -> datasources -> InfluxDB -> and klick on "Test", to check if the Datasource is working correctly
+
+6. Run the scraper manually with:
 ```
 python goodwe_get_data.py
 ```
+and check if you got data in influxDB and grafana
+
 </br>
 
-5. if everything is OK, create a cronjob to get every 5 min the data
+7. if everything is OK, create a cronjob to get every 5 min the data
 
 ```
 */5 * * * * <username> python /<absolute_path_to_script>/goodwe_get_data.py

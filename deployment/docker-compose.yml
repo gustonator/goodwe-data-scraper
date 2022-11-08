@@ -26,7 +26,7 @@ services:
       org.label-schema.group: "monitoring"
 
   grafana:
-    image: grafana:latest
+    image: grafana/grafana:latest
     container_name: grafana
     volumes:
       - grafana-storage:/var/lib/grafana
