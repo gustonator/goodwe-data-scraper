@@ -5,13 +5,16 @@ import config
 import time
 import socket
 import urllib.request
-from datetime import datetime
+import datetime
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 # get current directory of this script
 CURRENT_DIR=(os.path.dirname(os.path.realpath(__file__)))
+
+# get current datetime
+CURRENT_TIME = datetime.datetime.now()
 
 # Configure InfluxDB connection variables
 _client = InfluxDBClient(url=config.INFLUXDB_URL, token=config.INFLUXDB_TOKEN, org=config.INFLUXDB_ORG)
@@ -37,7 +40,7 @@ try:
                     point = Point(sensor.name) \
                           .tag("type", "FVE") \
                           .field(sensor.id_, runtime_data[sensor.id_]) \
-                          .time(datetime.utcnow(), WritePrecision.NS)
+                          .time(CURRENT_TIME, WritePrecision.NS)
 
                     if config.INFLUXDB_WRITE_ENABLED:
                         _write_api.write(config.INFLUXDB_BUCKET, config.INFLUXDB_ORG, point)
@@ -47,7 +50,7 @@ try:
         point = Point("Energy price per kWh") \
                 .tag("type", "FVE") \
                 .field("energy_price", config.ENERGY_PRICE) \
-                .time(datetime.utcnow(), WritePrecision.NS)
+                .time(CURRENT_TIME, WritePrecision.NS)
 
         if config.INFLUXDB_WRITE_ENABLED:
             _write_api.write(config.INFLUXDB_BUCKET, config.INFLUXDB_ORG, point)
