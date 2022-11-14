@@ -5,7 +5,7 @@ import config
 import time
 import socket
 import urllib.request
-import datetime
+from datetime import datetime
 from influxdb_client import InfluxDBClient, Point, WritePrecision
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -14,7 +14,7 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 CURRENT_DIR=(os.path.dirname(os.path.realpath(__file__)))
 
 # get current datetime
-CURRENT_TIME = datetime.datetime.now()
+CURRENT_TIME = datetime.utcnow()
 
 # Configure InfluxDB connection variables
 _client = InfluxDBClient(url=config.INFLUXDB_URL, token=config.INFLUXDB_TOKEN, org=config.INFLUXDB_ORG)
