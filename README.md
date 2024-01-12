@@ -1,3 +1,7 @@
+# Deprecated. 
+### switched to https://github.com/gustonator/goodwe-prometheus-exporter
+</br></br>
+
 # Goodwe data scraper
 Scrape the Goodwe inverter data and write to InfluxDB or a file
 </br>
